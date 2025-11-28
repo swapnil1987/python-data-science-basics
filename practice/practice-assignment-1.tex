@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{gray},
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Python Programming Assignment}
+\lhead{Economics Data Science}
+\rfoot{Page \thepage}
+
+\title{\textbf{Python Programming Assignment} \\ Control Flow and Functions}
+\author{Swapnil Singh}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Instructions}
+ Ensure your code is well-commented and follows proper style conventions. Test your functions with multiple examples to verify correctness.
+
+\vspace{0.3cm}
+
+\section{Control Flow Problems}
+
+\subsection*{Problem 1: Tax Bracket Calculator (Easy)}
+Write a program that calculates income tax based on the following simplified tax brackets:
+\begin{itemize}
+    \item Income up to \$10,000: 0\% tax
+    \item Income from \$10,001 to \$40,000: 10\% tax
+    \item Income from \$40,001 to \$85,000: 20\% tax
+    \item Income above \$85,000: 30\% tax
+\end{itemize}
+
+Use conditional statements to determine which bracket applies and calculate the total tax owed. The tax should be applied progressively (e.g., someone earning \$50,000 pays 0\% on the first \$10,000, 10\% on the next \$30,000, and 20\% on the remaining \$10,000).
+
+\subsection*{Problem 2: GDP Growth Classification (Easy)}
+Write a program that takes a country's annual GDP growth rate (as a percentage) and classifies it as:
+\begin{itemize}
+    \item ``Recession'' if growth $<$ 0
+    \item ``Slow Growth'' if 0 $\leq$ growth $<$ 2
+    \item ``Moderate Growth'' if 2 $\leq$ growth $<$ 4
+    \item ``Strong Growth'' if growth $\geq$ 4
+\end{itemize}
+
+Use if-elif-else statements to print the appropriate classification.
+
+\subsection*{Problem 3: Price Index Calculator (Medium)}
+Write a program that calculates the Consumer Price Index (CPI) for a basket of goods over 5 years. Given:
+\begin{itemize}
+    \item A list of prices for Year 1 (base year): \texttt{[2.5, 1.8, 3.2, 0.9, 4.1]}
+    \item A list of prices for Years 2-5 (create your own reasonable values)
+\end{itemize}
+
+Use a for loop to calculate the CPI for each year using the formula:
+$$\text{CPI} = \frac{\sum \text{Current Year Prices}}{\sum \text{Base Year Prices}} \times 100$$
+
+Print the CPI for each year with appropriate labels.
+
+\subsection*{Problem 4: Compound Interest with Conditions (Medium)}
+Write a program that calculates the future value of an investment with the following conditions:
+\begin{itemize}
+    \item Initial investment: \$10,000
+    \item Base annual interest rate: 5\%
+    \item If the investment balance exceeds \$15,000, the interest rate increases to 6\%
+    \item If the balance exceeds \$20,000, the interest rate increases to 7\%
+\end{itemize}
+
+Use a while loop to calculate the balance year by year until it reaches at least \$25,000. Print the year and balance for each iteration, and show how many years it takes to reach the target.
+
+\section{Function Problems}
+
+\subsection*{Problem 5: Elasticity Calculator (Easy)}
+Write a function \texttt{price\_elasticity(p1, q1, p2, q2)} that calculates the price elasticity of demand using the midpoint method:
+$$E_d = \frac{(Q_2 - Q_1) / [(Q_2 + Q_1)/2]}{(P_2 - P_1) / [(P_2 + P_1)/2]}$$
+
+The function should:
+\begin{itemize}
+    \item Take four parameters: initial price, initial quantity, new price, new quantity
+    \item Return the elasticity value
+    \item Include a docstring explaining what the function does
+\end{itemize}
+
+Test your function with: $P_1 = 10$, $Q_1 = 100$, $P_2 = 12$, $Q_2 = 80$.
+
+\subsection*{Problem 6: Descriptive Statistics Function (Medium)}
+Write a function \texttt{describe\_data(data)} that takes a list of numerical values and returns a dictionary containing:
+\begin{itemize}
+    \item \texttt{``mean''}: the arithmetic mean
+    \item \texttt{``median''}: the median value
+    \item \texttt{``min''}: the minimum value
+    \item \texttt{``max''}: the maximum value
+    \item \texttt{``range''}: the range (max - min)
+\end{itemize}
+
+Do not use external libraries like NumPy. Implement the calculations using basic Python operations and list methods.
+
+Test your function with the dataset: \texttt{[23, 45, 12, 67, 34, 89, 23, 56, 78, 45]}.
+
+\subsection*{Problem 7: Present Value Calculator (Medium)}
+Write a function \texttt{present\_value(future\_cash\_flows, discount\_rate)} that:
+\begin{itemize}
+    \item Takes a list of future cash flows and an annual discount rate
+    \item Calculates the present value of each cash flow using: $PV = \frac{CF_t}{(1 + r)^t}$
+    \item Returns both a list of individual present values and the total NPV
+\end{itemize}
+
+Use a default parameter value of 0.05 (5\%) for the discount rate.
+
+Test with cash flows: \texttt{[1000, 1500, 2000, 2500, 3000]} over 5 years.
+
+\subsection*{Problem 8: Monte Carlo Simulation Function (Hard)}
+Write a function \texttt{simulate\_returns(initial\_investment, years, simulations=1000)} that:
+\begin{itemize}
+    \item Simulates investment returns over a specified number of years
+    \item Assumes annual returns are randomly drawn from a normal distribution with mean 7\% and standard deviation 15\%
+    \item Runs the specified number of simulations
+    \item Returns a dictionary with:
+    \begin{itemize}
+        \item \texttt{``mean\_final\_value''}: average final portfolio value across all simulations
+        \item \texttt{``median\_final\_value''}: median final portfolio value
+        \item \texttt{``percentile\_5''}: 5th percentile (worst case in 95\% of scenarios)
+        \item \texttt{``percentile\_95''}: 95th percentile (best case in 95\% of scenarios)
+    \end{itemize}
+\end{itemize}
+
+Hint: Use \texttt{import random} and \texttt{random.gauss(mean, std\_dev)} to generate random returns.
+
+Test with: \$10,000 initial investment over 10 years with 1000 simulations.
+
+\section*{Bonus Challenge (Optional)}
+Combine multiple concepts: Write a function that simulates a simple market equilibrium using an iterative process. Start with an initial price guess, calculate supply and demand at that price using linear functions, adjust the price based on excess demand/supply, and repeat until equilibrium is reached (supply $\approx$ demand within a tolerance). Your function should return the equilibrium price and quantity.
+
+\end{document}
