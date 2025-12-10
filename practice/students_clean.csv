@@ -1,0 +1,7 @@
+student_id,name,department,start_year,supervisor,status,gpa
+S01,Alice smith,Economics,2019,Prof. Muller,active,8.7
+S02,Bob jones,Computer science,2018,Prof. Chen,active,9.1
+S03,Carol lee,Economics,2017,Prof. Muller,graduated,8.45
+S04,David o'neil,Mathematics,2020,Prof. Rossi,active,7.8
+S05,Erin green,Computer science,2019,Prof. Chen,withdrawn,8.45
+S06,Frank stone,Economics,2021,Prof. Novak,active,8.2

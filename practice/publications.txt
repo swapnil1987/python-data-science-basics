@@ -1,0 +1,9 @@
+pub_id;student_id;year;venue_type;title
+P01;S01;2020;journal;macroeconomic expectations survey
+P02;S01;2021;conference;expectations and inflation
+P03;S02;2019;conference;deep learning for text
+P04;S02;2020;journal;scalable transformers
+P05;S02;2021;journal;robust representation learning
+P06;S03;2018;journal;experimental evidence in labor economics
+P07;S04;2021;conference;numerical methods in stochastic analysis
+P08;S06;2022;journal;expectations and policy uncertainty

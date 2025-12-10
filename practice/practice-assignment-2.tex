@@ -1,0 +1,225 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{gray},
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{Page \thepage}
+
+\title{\textbf{Python Programming Assignment} \\ Using \texttt{pandas}}
+\author{Swapnil Singh}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Instruction}
+ Ensure your code is well-commented and follows proper style conventions. You will be able to do this practice by using tools which were discussed during the class.
+
+
+
+In this assignment you will work with two data files (look at the solution file):
+
+\begin{itemize}
+    \item \texttt{students.txt}
+    \item \texttt{publications.txt}
+\end{itemize}
+
+
+\section*{Part A: Loading and Inspecting the Data}
+
+\begin{enumerate}
+    \item Import pandas and check the installed version.
+    \begin{enumerate}
+        \item Import pandas with the usual alias.
+        \item Print the value of \verb|pd.__version__|.
+    \end{enumerate}
+
+    \item Load both data files into DataFrames.
+    \begin{enumerate}
+        \item Use \verb|pd.read_csv| to read \texttt{students.txt} into a DataFrame called \verb|students|.
+              (Hint: the default separator is a comma, so you do not need to specify \verb|sep|.)
+        \item Use \verb|pd.read_csv| to read \texttt{publications.txt} into a DataFrame called \verb|pubs|.
+              (Hint: this file uses semicolons, so you must specify the correct separator.)
+    \end{enumerate}
+
+    \item Inspect the structure of the DataFrames.
+    \begin{enumerate}
+        \item Use \verb|students.info()| and \verb|pubs.info()| to view basic information.
+        \item Display the first two rows and last two rows of each DataFrame using \verb|.head()| and \verb|.tail()|.
+        \item Print the \verb|index|, \verb|dtypes| and \verb|values| attributes of \verb|students|.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Part B: Cleaning and Transforming the Data}
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+    \item Clean up name formatting in the \verb|students| DataFrame.
+    \begin{enumerate}
+        \item Select the \verb|name| column as a Series using \verb|students['name']|.
+        \item Use \verb|Series.str.replace| to:
+        \begin{itemize}
+            \item Replace any double spaces \verb|"  "| with a single space.
+        \end{itemize}
+        \item Use \verb|Series.str.capitalize| to convert each name to ``capitalized'' form
+              (first letter uppercase, the rest lowercase).
+        \item Assign the cleaned Series back to the \verb|students['name']| column.
+        \item Verify the change by printing \verb|students.head()|.
+    \end{enumerate}
+
+    \item Handle missing GPA values.
+    \begin{enumerate}
+        \item Use \verb|students['gpa']| and \verb|Series.dtype| to check its current data type.
+        \item Convert the \verb|gpa| column to numeric using \verb|pd.to_numeric|, and assign back.
+        \item Use \verb|students.isnull()| to identify which rows have missing GPA values.
+        \item Compute the mean GPA over all non-missing values using \verb|students['gpa'].mean()|.
+        \item Use \verb|DataFrame.fillna| \emph{on the} \verb|gpa| column only to fill missing GPAs with the mean GPA.
+        \item Confirm there are no remaining missing values in \verb|gpa|.
+    \end{enumerate}
+
+    \item Standardize text in the \verb|department| column (optional mini-cleaning).
+    \begin{enumerate}
+        \item Examine \verb|students['department'].unique()|.
+        \item Use \verb|Series.str.replace| or \verb|Series.str.capitalize| as needed to ensure department names are consistently formatted.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Part C: Selecting, Indexing and Filtering}
+
+\begin{enumerate}
+\setcounter{enumi}{6}
+    \item Work with indexes.
+    \begin{enumerate}
+        \item Use \verb|students.set_index('student_id')| to create a new DataFrame
+              \verb|students_by_id| where \verb|student_id| is the index.
+        \item Display \verb|students_by_id.head()| and inspect \verb|students_by_id.index|.
+        \item Access the row for student \verb|'S02'| using \verb|.loc|.
+    \end{enumerate}
+
+    \item Practice column selection.
+    \begin{enumerate}
+        \item From \verb|students|, select only the \verb|name| and \verb|gpa| columns using
+              \verb|students[['name', 'gpa']]| and store in a new DataFrame \verb|name_gpa|.
+        \item Display \verb|name_gpa.head()|.
+    \end{enumerate}
+
+    \item Filter rows based on conditions.
+    \begin{enumerate}
+        \item Using \verb|.loc| and Boolean conditions, select all active students in the
+              \verb|Economics| department.
+        \item From these students, select only the \verb|name|, \verb|start_year| and \verb|gpa| columns.
+        \item Similarly, select all students with GPA strictly greater than 8.5.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Part D: Working with the Publications Data}
+
+\begin{enumerate}
+\setcounter{enumi}{9}
+    \item Basic inspection and typing.
+    \begin{enumerate}
+        \item Use \verb|pubs.head()| and \verb|pubs.tail()| to inspect the data.
+        \item Check \verb|pubs.dtypes|.
+        \item Ensure that the \verb|year| column is of an appropriate numeric type using \verb|astype| or \verb|pd.to_numeric|.
+    \end{enumerate}
+
+    \item Filtering and string methods.
+    \begin{enumerate}
+        \item Select only the journal publications using \verb|Series.str.contains| on the \verb|venue_type| column.
+        \item Create a Series containing only the titles of journal publications.
+        \item Use \verb|Series.str.capitalize| on the titles and inspect the result.
+    \end{enumerate}
+
+    \item Counting publications per student.
+    \begin{enumerate}
+        \item Use \verb|pubs['student_id']| to get the student ID Series.
+        \item Create a pivot table counting the number of publications per student using
+              \verb|DataFrame.pivot_table| with \verb|values='pub_id'|, \verb|index='student_id'|, and
+              an appropriate aggregation function (e.g.\ counting).
+        \item Reset the index of this pivot table using \verb|.reset_index()| so that \verb|student_id|
+              becomes a column again.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Part E: Combining Information}
+
+\begin{enumerate}
+\setcounter{enumi}{12}
+    \item Compare students by publication counts and GPA.
+    \begin{enumerate}
+        \item Starting from the pivot table created in Part D, rename the column containing the counts
+              to something meaningful like \verb|'pub_count'| using \verb|df.rename|.
+        \item Create a copy of the \verb|students| DataFrame using \verb|students.copy()|.
+        \item Set \verb|student_id| as the index of both DataFrames (the students copy and the pivot table)
+              using \verb|.set_index('student_id')|.
+        \item Use \verb|.loc| and \verb|DataFrame.T| (transpose) if helpful to manually align and inspect
+              publication counts and GPAs for selected student IDs (e.g.\ \verb|'S01'|, \verb|'S02'|).
+        \item Compute the mean GPA of students who have at least one publication (you may need to select
+              only those student IDs present in the pivot table).
+    \end{enumerate}
+
+    \item Correlation exploration.
+    \begin{enumerate}
+        \item Construct a DataFrame that has, for each student present in the publications pivot table:
+        \begin{itemize}
+            \item their GPA,
+            \item their number of publications.
+        \end{itemize}
+        \item Use \verb|df.corr()| on this DataFrame to compute the correlation matrix between GPA and publication count.
+        \item Briefly interpret the resulting correlation value.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Part F: Plotting and Exporting}
+
+\begin{enumerate}
+\setcounter{enumi}{14}
+    \item Simple plots.
+    \begin{enumerate}
+        \item Use \verb|students['gpa'].plot()| to create a simple plot of GPA values (index on the x-axis).
+        \item Use \verb|students.plot()| or \verb|DataFrame.plot| to create a plot that shows GPA by start year
+              (you may wish to select only the relevant columns before plotting).
+        \item Use the publication count DataFrame to create a bar plot (e.g.\ publication count by student ID).
+    \end{enumerate}
+
+    \item Exporting results.
+    \begin{enumerate}
+        \item Save the cleaned \verb|students| DataFrame to a CSV file called \texttt{students\_clean.csv}
+              using \verb|df.to_csv|.
+        \item Save the publication count per student to an Excel file called \texttt{pub\_counts.xlsx}
+              using \verb|df.to_excel|.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Part G: Additional Short Tasks}
+
+\begin{enumerate}
+\setcounter{enumi}{16}
+    \item Using \verb|Series.unique|, list all distinct supervisor names.
+    \item Using \verb|DataFrame.iterrows|, print (or construct a small Series) that maps each student
+          name to their status (e.g.\ \verb|"alice smith" -> "active"|).
+    \item Choose two Series (for example, two manually constructed Series of publication counts)
+          and compare them using \verb|Series.equals|.
+\end{enumerate}
+
+
+
+\end{document}
